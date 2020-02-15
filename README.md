@@ -31,9 +31,6 @@ vendor/
 开发组件使用组件脚手架安装
 
 ``` bash
-正式版
-    composer create-project topphp/component-builder 你的组件名称
-开发版
     composer create-project topphp/component-builder=dev-master 你的组件名称
 ```
 
