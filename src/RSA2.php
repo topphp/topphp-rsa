@@ -37,15 +37,15 @@ class RSA2
     public function __construct($publicKeyFile = '', $privateKeyFile = '')
     {
         if ($publicKeyFile) {
-            $this->GetPublicKey($publicKeyFile);
+            $this->getPublicKey($publicKeyFile);
         }
         if ($privateKeyFile) {
-            $this->GetPrivateKey($privateKeyFile);
+            $this->getPrivateKey($privateKeyFile);
         }
         // 设置证书路径与默认配置
         $this->keyDir = dirname(__FILE__) . DIRECTORY_SEPARATOR . "pem";
         if (empty($this->generateKeyConf)) {
-            $this->SetGenerateKeyConfig();
+            $this->setGenerateKeyConfig();
         }
         if (empty($this->dn)) {
             // DN --  Distinguished Name,证书持有人的唯一标识符。
@@ -76,7 +76,7 @@ class RSA2
      * @throws \Exception
      * @author bai
      */
-    private function Error($errorMsg)
+    private function error($errorMsg)
     {
         $this->rsaError = 'RSA Error: ' . $errorMsg;
         throw new \Exception($this->rsaError);
@@ -89,9 +89,9 @@ class RSA2
      * @throws \Exception
      * @author bai
      */
-    private function GetPublicKey($file)
+    private function getPublicKey($file)
     {
-        $keyContent = $this->ReadFile($file, "publicKey file");
+        $keyContent = $this->readFile($file, "publicKey file");
         if ($keyContent) {
             //这个函数可用来判断公钥是否是可用的
             $this->publicKey = openssl_get_publickey($keyContent);
@@ -105,9 +105,9 @@ class RSA2
      * @throws \Exception
      * @author bai
      */
-    private function GetPrivateKey($file)
+    private function getPrivateKey($file)
     {
-        $keyContent = $this->ReadFile($file, "privateKey file");
+        $keyContent = $this->readFile($file, "privateKey file");
         if ($keyContent) {
             //这个函数可用来判断私钥是否是可用的，可用返回资源id Resource id
             $this->privateKey = openssl_get_privatekey($keyContent);
@@ -123,11 +123,11 @@ class RSA2
      * @throws \Exception
      * @author bai
      */
-    private function ReadFile($file, $type = "file")
+    private function readFile($file, $type = "file")
     {
         $ret = false;
         if (!file_exists($file)) {
-            $this->Error("The {$type} {$file} is not exists");
+            $this->error("The {$type} {$file} is not exists");
         } else {
             $ret = file_get_contents($file);
         }
@@ -144,7 +144,7 @@ class RSA2
      * @return string
      * @author bai
      */
-    public function ErrLog()
+    public function errLog()
     {
         return $this->errorLog;
     }
@@ -155,7 +155,7 @@ class RSA2
      * @return mixed
      * @author bai
      */
-    public function RootDir()
+    public function rootDir()
     {
         return dirname($_SERVER['DOCUMENT_ROOT']);
     }
@@ -167,7 +167,7 @@ class RSA2
      * @return string
      * @author bai
      */
-    public function FormatPriKey($priKey)
+    public function formatPriKey($priKey)
     {
         if (empty($priKey)) {
             return false;
@@ -187,7 +187,7 @@ class RSA2
      * @return string
      * @author bai
      */
-    public function FormatPubKey($pubKey)
+    public function formatPubKey($pubKey)
     {
         if (empty($pubKey)) {
             return false;
@@ -207,7 +207,7 @@ class RSA2
      * @return $this
      * @author bai
      */
-    public function SetKeyDir($dir = null)
+    public function setKeyDir($dir = null)
     {
         if (!empty($dir)) {
             $this->keyDir = $dir;
@@ -223,7 +223,7 @@ class RSA2
      * @return $this
      * @author bai
      */
-    public function SetPriFileName($privateFilename = "private_key.pem")
+    public function setPriFileName($privateFilename = "private_key.pem")
     {
         $this->priFileName = $privateFilename;
         return $this;
@@ -236,7 +236,7 @@ class RSA2
      * @return $this
      * @author bai
      */
-    public function SetPubFileName($publicFilename = "public_key.pem")
+    public function setPubFileName($publicFilename = "public_key.pem")
     {
         $this->pubFileName = $publicFilename;
         return $this;
@@ -249,7 +249,7 @@ class RSA2
      * @return $this
      * @author bai
      */
-    public function SetOpensslConfDir($opensslConfDir)
+    public function setOpensslConfDir($opensslConfDir)
     {
         $this->opensslConfDir = $opensslConfDir;
         return $this;
@@ -264,7 +264,7 @@ class RSA2
      * @return $this
      * @author bai
      */
-    public function SetGenerateKeyConfig($encryption = "sha256", $bitType = 2048, $dn = [])
+    public function setGenerateKeyConfig($encryption = "sha256", $bitType = 2048, $dn = [])
     {
         $config                = [
             "digest_alg"       => $encryption,
@@ -286,7 +286,7 @@ class RSA2
      * @throws \Exception
      * @author bai
      */
-    public function CreateSecretKey()
+    public function createSecretKey()
     {
         try {
             // 创建密钥对
@@ -300,8 +300,8 @@ class RSA2
             file_put_contents($this->keyDir . DIRECTORY_SEPARATOR . $this->priFileName, $priKey);
             file_put_contents($this->keyDir . DIRECTORY_SEPARATOR . $this->pubFileName, $pubKey);
             // 设置公私钥文件
-            $this->GetPrivateKey($this->keyDir . DIRECTORY_SEPARATOR . $this->priFileName);
-            $this->GetPublicKey($this->keyDir . DIRECTORY_SEPARATOR . $this->pubFileName);
+            $this->getPrivateKey($this->keyDir . DIRECTORY_SEPARATOR . $this->priFileName);
+            $this->getPublicKey($this->keyDir . DIRECTORY_SEPARATOR . $this->pubFileName);
             return $this;
         } catch (\Exception $e) {
             $this->errorLog = $e->getMessage();
@@ -319,7 +319,7 @@ class RSA2
      * @return $this|bool
      * @author bai
      */
-    public function CreateCertificate(
+    public function createCertificate(
         $priKeyPass = 'secret',
         $expireDay = 365,
         $certPubFilename = 'csr_public.cert',
@@ -327,7 +327,7 @@ class RSA2
     ) {
         try {
             // 配置
-            $this->SetGenerateKeyConfig("sha512", 4096);
+            $this->setGenerateKeyConfig("sha512", 4096);
             // 创建密钥对
             $res = openssl_pkey_new($this->generateKeyConf);
             // 获取证书
@@ -355,18 +355,18 @@ class RSA2
      * @throws \Exception
      * @author bai
      */
-    public function CryptCode($string, $operation = 'E')
+    public function cryptCode($string, $operation = 'E')
     {
         try {
             $data = "";
             if ($operation == 'D') {
                 if (empty($this->privateKey)) {
-                    $this->Error("The private_key certificate error");
+                    $this->error("The private_key certificate error");
                 }
                 openssl_private_decrypt(base64_decode($string), $data, $this->privateKey);// 私钥解密
             } else {
                 if (empty($this->publicKey)) {
-                    $this->Error("The public_key certificate error");
+                    $this->error("The public_key certificate error");
                 }
                 openssl_public_encrypt($string, $data, $this->publicKey);// 公钥加密
                 $data = base64_encode($data);
@@ -387,18 +387,18 @@ class RSA2
      * @throws \Exception
      * @author bai
      */
-    public function CryptReCode($string, $operation = 'E')
+    public function cryptReCode($string, $operation = 'E')
     {
         try {
             $data = "";
             if ($operation == 'D') {
                 if (empty($this->publicKey)) {
-                    $this->Error("The public_key certificate error");
+                    $this->error("The public_key certificate error");
                 }
                 openssl_public_decrypt(base64_decode($string), $data, $this->publicKey);// 公钥解密
             } else {
                 if (empty($this->privateKey)) {
-                    $this->Error("The private_key certificate error");
+                    $this->error("The private_key certificate error");
                 }
                 openssl_private_encrypt($string, $data, $this->privateKey);// 私钥加密
                 $data = base64_encode($data);
@@ -417,7 +417,7 @@ class RSA2
      * @return string
      * @author bai
      */
-    public function GetSignString($params)
+    public function getSignString($params)
     {
         try {
             unset($params['sign']);
@@ -456,11 +456,11 @@ class RSA2
      * @throws \Exception
      * @author bai
      */
-    public function GetSign($string, $signatureAlg = OPENSSL_ALGO_SHA256)
+    public function getSign($string, $signatureAlg = OPENSSL_ALGO_SHA256)
     {
         try {
             if (empty($this->privateKey)) {
-                $this->Error("The private_key certificate error");
+                $this->error("The private_key certificate error");
             }
             $signature = '';
             openssl_sign($string, $signature, $this->privateKey, $signatureAlg);
@@ -481,11 +481,11 @@ class RSA2
      * @return bool
      * @author bai
      */
-    public function CheckSign($sign, $toSign, $signatureAlg = OPENSSL_ALGO_SHA256)
+    public function checkSign($sign, $toSign, $signatureAlg = OPENSSL_ALGO_SHA256)
     {
         try {
             if (empty($this->publicKey)) {
-                $this->Error("The public_key certificate error");
+                $this->error("The public_key certificate error");
             }
             $result = openssl_verify($toSign, base64_decode($sign), $this->publicKey, $signatureAlg);
             openssl_free_key($this->publicKey);
@@ -504,7 +504,7 @@ class RSA2
      * @return string
      * @author bai
      */
-    public function CertEncrypt($data, $certPubFilepath)
+    public function certEncrypt($data, $certPubFilepath)
     {
         try {
             $pubKey = file_get_contents($certPubFilepath);
@@ -526,7 +526,7 @@ class RSA2
      * @return mixed
      * @author bai
      */
-    public function CertDecrypt($data, $certPriFilepath, $priKeyPass = 'secret')
+    public function certDecrypt($data, $certPriFilepath, $priKeyPass = 'secret')
     {
         try {
             $data = base64_decode($data);
