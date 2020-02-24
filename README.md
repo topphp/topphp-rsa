@@ -28,23 +28,29 @@ vendor/
 
 ## 安装
 
-开发组件使用组件脚手架安装
-
 ``` bash
-    composer create-project topphp/component-builder=dev-master 你的组件名称
-```
-
-骨架安装组件
-
-``` bash
-    composer require 组件名称=dev-master
+    composer require topphp/topphp-rsa
 ```
 
 ## 用法
 
 ```php
     命名空间引用：use Topphp\TopphpRsa\RSA2;
-    使用方式参看单元测试文件
+    $rsaObj = new RSA2();
+    $data = "要加密的数据";
+    $eData = $rsaObj->cryptCode($data, "E");// E 加密
+    $dData = $rsaObj->cryptCode($eData, "D");// D 解密
+    
+    组件还包含如下方法：
+        createSecretKey() // 创建公私钥文件
+        createCertificate() // 创建CA证书文件
+        cryptReCode() // 私钥加密---公钥解密
+        getSign() // 私钥生成签名
+        checkSign() // 公钥验签
+        certEncrypt() // CA证书公钥加密
+        certDecrypt() // CA证书私钥解密
+        
+    更多详细使用方式参看单元测试文件
 ```
 
 ## 修改日志
