@@ -99,7 +99,7 @@ class RsaHelper
      */
     private static function isJson($str)
     {
-        return !is_null(json_decode($str));
+        return is_string($str) && !is_null(json_decode($str));
     }
 
     /**
