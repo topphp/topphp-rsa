@@ -50,10 +50,10 @@ vendor/
         certEncrypt() // CA证书公钥加密
         certDecrypt() // CA证书私钥解密
     
-    助手类（方法）
+    助手类（只需要部署时调用一次 RsaHelper::generateSecretKey() 方法，以后加密解密会自动获取公私钥文件内容）
         RsaHelper::handler($publicKeyFile, $privateKeyFile);// 返回原始RSA2对象句柄
         RsaHelper::generateSecretKey($option);// 生成公私钥文件
-        RsaHelper::generateCertificate($option);// 生成CA证书文件
+        RsaHelper::generateCertificate($option);// 生成CA证书文件（有使用CA证书加密解密的需求时，调用此方法生成证书）
         RsaHelper::foPubEncrypt($data);// 【公钥加密---私钥解密】 之 加密 支持数组（常用于加密解密）
         RsaHelper::foPriDecrypt($pubEncStr);// 【公钥加密---私钥解密】 之 解密（常用于加密解密）
         RsaHelper::rePriEncrypt($data);// 【私钥加密---公钥解密】 之 加密 支持数组（常用于签名验签）
