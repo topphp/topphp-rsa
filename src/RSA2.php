@@ -157,7 +157,14 @@ class RSA2
      */
     public function rootDir()
     {
-        return dirname($_SERVER['DOCUMENT_ROOT']);
+        try {
+            if (!isset($_SERVER['DOCUMENT_ROOT'])) {
+                return root_path();
+            }
+            return dirname($_SERVER['DOCUMENT_ROOT']);
+        } catch (\Exception $e) {
+            return "";
+        }
     }
 
     /**
