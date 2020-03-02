@@ -54,13 +54,13 @@ vendor/
         RsaHelper::handler($publicKeyFile, $privateKeyFile);// 返回原始RSA2对象句柄
         RsaHelper::generateSecretKey($option);// 生成公私钥文件
         RsaHelper::generateCertificate($option);// 生成CA证书文件
-        RsaHelper::foPubEncrypt($data);// 【公钥加密---私钥解密】 之 加密（常用于加密解密）
+        RsaHelper::foPubEncrypt($data);// 【公钥加密---私钥解密】 之 加密 支持数组（常用于加密解密）
         RsaHelper::foPriDecrypt($pubEncStr);// 【公钥加密---私钥解密】 之 解密（常用于加密解密）
-        RsaHelper::rePriEncrypt($data);// 【私钥加密---公钥解密】 之 加密（常用于签名验签）
+        RsaHelper::rePriEncrypt($data);// 【私钥加密---公钥解密】 之 加密 支持数组（常用于签名验签）
         RsaHelper::rePubDecrypt($priEncStr);// 【私钥加密---公钥解密】 之 解密（常用于签名验签）
-        RsaHelper::generateSignature($data);// 生成签名
+        RsaHelper::generateSignature($data);// 生成签名 支持数组
         RsaHelper::verifySignature($signStr, $data);// 验证签名
-        RsaHelper::certEncrypt($data);// 【CA证书公钥加密---私钥解密】 之 加密
+        RsaHelper::certEncrypt($data);// 【CA证书公钥加密---私钥解密】 之 加密 支持数组
         RsaHelper::certDecrypt($certEncStr, $priPass);// 【CA证书公钥加密---私钥解密】 之 解密
         RsaHelper::errorMsg();// 获取内部错误信息
         
