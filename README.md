@@ -62,7 +62,7 @@ vendor/
         RsaHelper::verifySignature($signStr, $data);// 验证签名
         RsaHelper::certEncrypt($data);// 【CA证书公钥加密---私钥解密】 之 加密 支持数组
         RsaHelper::certDecrypt($certEncStr, $priPass);// 【CA证书公钥加密---私钥解密】 之 解密
-        RsaHelper::errorMsg();// 获取内部错误信息
+        RsaHelper::getErrorMsg();// 获取内部错误信息
         
     更多详细使用方式参看单元测试文件
 ```

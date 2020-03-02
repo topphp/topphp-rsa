@@ -361,7 +361,7 @@ class RsaHelper
      * @throws \Exception
      * @author bai
      */
-    public static function errorMsg()
+    public static function getErrorMsg()
     {
         return self::$handler->errLog();
     }
