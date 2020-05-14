@@ -12,13 +12,12 @@ namespace Topphp\TopphpRsa;
 class RSA2
 {
     // 初始化属性【无需修改】
-    private $publicKey = null;
-    private $privateKey = null;
-    private $rsaError = "";
-    private $errorLog = "";
-    private $keyDir = null;
+    private $publicKey       = null;
+    private $privateKey      = null;
+    private $errorLog        = "";
+    private $keyDir          = null;
     private $generateKeyConf = [];
-    private $dn = [];
+    private $dn              = [];
 
     // 基础配置【可手动修改，也可调用配置方法修改】
     private $priFileName = "private_key.pem";
@@ -50,20 +49,20 @@ class RSA2
         if (empty($this->dn)) {
             // DN --  Distinguished Name,证书持有人的唯一标识符。
             $this->dn = [
-                "countryName"            => "CN",
                 // 所在国家 CN 中国 HK香港 TW台湾 MO澳门 UK 英国 GB 英国 US 美国 JP 日本
-                "stateOrProvinceName"    => "Tianjin",
+                "countryName"            => "CN",
                 // 所在省份
-                "localityName"           => "Tianjin",
+                "stateOrProvinceName"    => "Tianjin",
                 // 所在城市
-                "organizationName"       => "The Kaituo",
+                "localityName"           => "Tianjin",
                 // 注册人姓名
-                "organizationalUnitName" => "PHP Topphp Team",
+                "organizationName"       => "The Kaituo",
                 // 组织名称
-                "commonName"             => "Topphp",
+                "organizationalUnitName" => "PHP Topphp Team",
                 // 公共名称
-                "emailAddress"           => "Topphp@example.com"
+                "commonName"             => "Topphp",
                 // 邮箱
+                "emailAddress"           => "admin@kaituocn.com"
             ];
         }
     }
@@ -78,8 +77,8 @@ class RSA2
      */
     private function error($errorMsg)
     {
-        $this->rsaError = 'RSA Error: ' . $errorMsg;
-        throw new \Exception($this->rsaError);
+        $rsaError = 'RSA Error: ' . $errorMsg;
+        throw new \Exception($rsaError);
     }
 
     /**
@@ -431,7 +430,7 @@ class RSA2
             ksort($params);// 升序排序
             reset($params);// 移动指针到首位
 
-            $pairs = array ();
+            $pairs = array();
             foreach ($params as $k => $v) {
                 if (!empty($v)) {
                     $pairs[] = "$k=$v";
