@@ -343,8 +343,12 @@ class RSA2
             // 导出证书公钥
             openssl_x509_export_to_file($cert, $this->keyDir . DIRECTORY_SEPARATOR . $certPubFilename);
             // 导出证书私钥
-            openssl_pkcs12_export_to_file($cert, $this->keyDir . DIRECTORY_SEPARATOR . $certPriFilename, $res,
-                $priKeyPass);
+            openssl_pkcs12_export_to_file(
+                $cert,
+                $this->keyDir . DIRECTORY_SEPARATOR . $certPriFilename,
+                $res,
+                $priKeyPass
+            );
             return $this;
         } catch (\Exception $e) {
             $this->errorLog = $e->getMessage();

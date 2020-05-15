@@ -34,7 +34,7 @@ class RSA2Test extends TestCase
             ->setGenerateKeyConfig()
             ->setKeyDir($keyDir)
             ->createSecretKey();
-        $this->assertTrue($res !== false);
+        return $this->assertTrue($res !== false);
     }
 
     /**
@@ -74,7 +74,7 @@ class RSA2Test extends TestCase
             ->setGenerateKeyConfig("sha256", 2048, $dn)
             ->setKeyDir($keyDir)
             ->createCertificate($priKeyPass, $expireDay, $certPubFilename, $certPriFilename);
-        $this->assertTrue($res !== false);
+        return $this->assertTrue($res !== false);
     }
 
     /**
@@ -92,7 +92,7 @@ class RSA2Test extends TestCase
         $data        = "要加密的数据";
         $eData       = $rsaObj->cryptCode($data, "E");// E 加密
         $dData       = $rsaObj->cryptCode($eData, "D");// D 解密
-        $this->assertTrue($dData == $data);
+        return $this->assertTrue($dData == $data);
     }
 
     /**
@@ -110,7 +110,7 @@ class RSA2Test extends TestCase
         $data        = "要加密的数据";
         $eData       = $rsaObj->cryptReCode($data, "E");// E 加密
         $dData       = $rsaObj->cryptReCode($eData, "D");// D 解密
-        $this->assertTrue($dData == $data);
+        return $this->assertTrue($dData == $data);
     }
 
     /**
@@ -128,7 +128,7 @@ class RSA2Test extends TestCase
         $string      = "要签名的字符串";
         $sign        = $rsaObj->getSign($string);// 签名
         $verify      = $rsaObj->checkSign($sign, $string);// 验签（param1 签名 param2 待签名的字符串）
-        $this->assertTrue($verify);
+        return $this->assertTrue($verify);
     }
 
     /**
@@ -146,8 +146,11 @@ class RSA2Test extends TestCase
         $data         = "要加密的数据";
         $caEncodeData = $rsaObj->certEncrypt($data, $certPubFile);// CA证书公钥加密（param1 要加密的字符串 param2 CA公钥文件地址）
         $priKeyPass   = 'secret';// 创建CA证书时使用的私钥密钥
-        $caDecodeData = $rsaObj->certDecrypt($caEncodeData, $certPriFile,
-            $priKeyPass);// CA证书私钥解密（param1 要解密的字符串 param2 CA私钥文件地址 param3 私钥密钥）
-        $this->assertTrue($caDecodeData == $data);
+        $caDecodeData = $rsaObj->certDecrypt(
+            $caEncodeData,
+            $certPriFile,
+            $priKeyPass
+        );// CA证书私钥解密（param1 要解密的字符串 param2 CA私钥文件地址 param3 私钥密钥）
+        return $this->assertTrue($caDecodeData == $data);
     }
 }
