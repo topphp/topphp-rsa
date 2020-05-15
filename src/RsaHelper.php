@@ -15,7 +15,6 @@
 
 namespace Topphp\TopphpRsa;
 
-
 class RsaHelper
 {
     /**
@@ -203,8 +202,12 @@ class RsaHelper
         $res = self::handler()->setOpensslConfDir($config['openssl_conf_dir'])
             ->setGenerateKeyConfig("sha256", 2048, $config['dn'])
             ->setKeyDir($config['save_dir'])
-            ->createCertificate($config['pri_pass'], (int)$config['expire_day'], $config['cert_pub_name'],
-                $config['cert_pri_name']);
+            ->createCertificate(
+                $config['pri_pass'],
+                (int)$config['expire_day'],
+                $config['cert_pub_name'],
+                $config['cert_pri_name']
+            );
         if ($res === false) {
             return false;
         }
